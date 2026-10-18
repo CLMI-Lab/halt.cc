@@ -1,0 +1,137 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # The default PyPI wheel for torch pulls the full CUDA stack (~2.5 GB).
+  # Nothing here uses a GPU, so the CPU-only index keeps the job to ~200 MB.
+  PIP_EXTRA_INDEX_URL: https://download.pytorch.org/whl/cpu
+
+jobs:
+  test:
+    name: tests (py${{ matrix.python }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.10", "3.11", "3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e .
+
+      - name: Versions
+        run: |
+          python -c "import numpy, scipy, torch; print('numpy', numpy.__version__)"
+          python -c "import scipy; print('scipy', scipy.__version__)"
+          python -c "import torch; print('torch', torch.__version__)"
+
+      - name: Run tests
+        # The suite is seeded throughout, so a failure here is a real
+        # regression rather than an unlucky draw. Propositions 4.1, 4.2, 5.1
+        # and 5.2 are each checked numerically.
+        run: pytest tests/ -q --durations=10
+
+  smoke:
+    name: pipeline smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e .
+
+      - name: Collect, calibrate, evaluate, summarise
+        # A deliberately tiny run: it checks that the scripts still chain
+        # together and write what the next step expects. It makes no
+        # statistical claim -- with ~20 certified anchors the coverage
+        # estimate is far too noisy to assert on, and the propositions are
+        # tested properly in the suite above.
+        run: |
+          python scripts/00_collect.py   --run ci --train-episodes 40 \
+                 --anchor-episodes 30 --anchors-per-episode 4 --quiet
+          python scripts/01_calibrate.py --run ci --epochs 15 --quiet
+          python scripts/02_evaluate.py  --run ci --quiet
+          python scripts/08_tables.py    --run ci --quiet
+
+      - name: Check the artefacts
+        run: |
+          python - <<'PY'
+          import csv, json, sys
+          from pathlib import Path
+
+          root = Path("runs/ci")
+          required = [
+              "results/anchors_ensemble.npz",
+              "results/coverage_ensemble.csv",
+              "results/error_distribution_ensemble.csv",
+              "results/SUMMARY.csv",
+              "results/REPORT.md",
+              "checkpoints/world_model_ensemble.pt",
+              "checkpoints/halt_ensemble/head.pt",
+              "checkpoints/halt_ensemble/calibration.json",
+          ]
+          missing = [p for p in required if not (root / p).exists()]
+          if missing:
+              sys.exit("::error::missing artefacts: " + ", ".join(missing))
+
+          summary = list(csv.DictReader(open(root / "results/SUMMARY.csv")))
+          if not summary:
+              sys.exit("::error::SUMMARY.csv is empty")
+
+          # Every CSV must carry its provenance, so a results file can never
+          # be mistaken for a reproduction of the paper's MuJoCo matrix.
+          for path in (root / "results").glob("*.csv"):
+              rows = list(csv.DictReader(open(path)))
+              if rows and "provenance" not in rows[0]:
+                  sys.exit(f"::error::{path.name} has no provenance column")
+              side = path.with_suffix(".meta.json")
+              if not side.exists():
+                  sys.exit(f"::error::{path.name} has no .meta.json sidecar")
+              json.loads(side.read_text())
+
+          cal = json.loads((root / "checkpoints/halt_ensemble/calibration.json").read_text())
+          for key in ("lambda_hat", "alpha", "tau", "h_max"):
+              if key not in cal:
+                  sys.exit(f"::error::calibration.json is missing {key}")
+
+          print(f"OK: {len(summary)} summary rows, artefacts and sidecars present")
+          PY
+
+      - name: Upload the run
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-run
+          path: runs/ci/
+          retention-days: 7
