@@ -1,0 +1,30 @@
+{
+  "lambda_hat": 1.237094913378768,
+  "alpha": 0.05,
+  "n_cal": 400,
+  "tau": 36.924274346347694,
+  "h_max": 30,
+  "planner_conditional": false,
+  "score_mean": 0.7528235917611696,
+  "score_p95": 1.2251943945554862,
+  "feature_names": [
+    "D_h1",
+    "D_h5",
+    "D_h10",
+    "D_h20",
+    "logJnorm_h1",
+    "Jentropy_h1",
+    "logJcond_h1",
+    "logJnorm_h5",
+    "Jentropy_h5",
+    "logJcond_h5",
+    "latent_novelty",
+    "tactile_residual",
+    "contact_onset_prob",
+    "resid_lag1",
+    "resid_lag2",
+    "resid_lag3",
+    "resid_lag4",
+    "resid_lag5"
+  ]
+}

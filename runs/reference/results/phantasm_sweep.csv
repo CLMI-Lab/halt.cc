@@ -1,0 +1,8 @@
+axis,severity,n_anchors,halt_coverage,halt_mean_h_star,halt_abstention_rate,fixed_coverage,fixed_h,contact_rate,coverage_gap,provenance
+nominal,0,468,0.987179,6.97436,0,0.745726,15,0.229491,0.241453,planar-push-reference-suite
+parametric,2,444,0.997748,6.79505,0,0.738739,15,0.301024,0.259009,planar-push-reference-suite
+contact,2,426,0.875587,7.36854,0,0.579812,15,0.129885,0.295775,planar-push-reference-suite
+action,2,432,0.981481,6.93981,0,0.69213,15,0.207806,0.289352,planar-push-reference-suite
+sensing,2,456,0.756684,2.48465,0.179825,0.364035,15,0.134909,0.392649,planar-push-reference-suite
+material,2,408,1,6.68873,0,0.732843,15,0.179214,0.267157,planar-push-reference-suite
+composition,2,456,0.989035,7.29825,0,0.763158,15,0.224804,0.225877,planar-push-reference-suite

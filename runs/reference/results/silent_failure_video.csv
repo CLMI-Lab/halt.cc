@@ -1,0 +1,5 @@
+tau,kappa,h_task,sfr,appearance_ttcd_rank_corr,h1_falsified,provenance
+36.9243,0.5,15,0.11,,,planar-push-reference-suite
+36.9243,0.75,15,0.0025,,,planar-push-reference-suite
+36.9243,0.9,15,0,,,planar-push-reference-suite
+36.9243,,15,,-0.00554703,False,planar-push-reference-suite

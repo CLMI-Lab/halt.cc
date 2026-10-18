@@ -1,0 +1,7 @@
+mode,planner,n_episodes,success_rate,mean_reward,unsafe_rate,abstention_rate,mean_h_star,std_h_star,realised_miss_rate,n_feedback,method,aci_controller,aci_alpha_target,aci_alpha_final,aci_eta,aci_l_max,aci_T_fed,aci_miss_rate,aci_deviation,aci_prop_5_2_bound,aci_bound_respected,aci_telescoping_residual,aci_level_saturated_frac,aci_pending_at_end,provenance
+static,mppi,25,0,-43.9434,0,0,1,0,nan,0,fixed H=1,,,,,,,,,,,,,,planar-push-reference-suite
+static,mppi,25,0,-42.3587,0,0,5,0,nan,0,fixed H=5,,,,,,,,,,,,,,planar-push-reference-suite
+static,mppi,25,0,-42.7594,0,0,10,0,nan,0,fixed H=10,,,,,,,,,,,,,,planar-push-reference-suite
+static,mppi,25,0,-41.1402,0,0,15,0,nan,0,fixed H=15,,,,,,,,,,,,,,planar-push-reference-suite
+static,mppi,25,0,-41.2455,0,0,6.312,1.59708,nan,0,HALT (static),,,,,,,,,,,,,,planar-push-reference-suite
+aci,mppi,25,0,-40.9586,0,0.9952,0.0264,0.393069,0.5,12,HALT (aci),aci,0.05,-0.22,0.05,30,12,0.5,0.45,2.66667,True,1.66533e-16,0.9952,0,planar-push-reference-suite

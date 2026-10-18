@@ -1,0 +1,6 @@
+regime,n,mean_h_star,std_h_star,mean_d1,mean_d_final,provenance
+contact,74,7.43243,1.60305,2.53449,87.4545,planar-push-reference-suite
+free_space,326,8.25767,2.55033,2.59687,82.4632,planar-push-reference-suite
+"h_star_in_[0,5)",38,3.52632,0.638124,2.79668,205.814,planar-push-reference-suite
+"h_star_in_[5,10)",238,7.41176,1.25966,2.59463,82.8281,planar-push-reference-suite
+"h_star_in_[10,20)",124,10.8387,0.986907,2.50271,46.9407,planar-push-reference-suite

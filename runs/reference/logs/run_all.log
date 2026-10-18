@@ -1,0 +1,415 @@
+HALT reference pipeline -- run 'reference' -- 2026-10-18T15:55:16Z
+
+### 00 collect (ensemble)
+    python3 scripts/00_collect.py --run reference --kind ensemble --train-episodes 600 --anchor-episodes 400 --anchors-per-episode 10
+
+========================================================================
+[00] fitting the ensemble world model
+========================================================================
+  54687 transitions from 600 episodes
+  member 0: final NLL -3.4590
+  member 1: final NLL -3.4336
+  member 2: final NLL -3.4317
+  member 3: final NLL -3.4469
+  member 4: final NLL -3.4436
+
+========================================================================
+[00] collecting anchors (Algorithm G.1, lines 1-4)
+========================================================================
+  feature dim 18; disabled families: none
+  episode 50/400, 480 anchors
+  episode 100/400, 940 anchors
+  episode 150/400, 1370 anchors
+  episode 200/400, 1850 anchors
+  episode 250/400, 2270 anchors
+  episode 300/400, 2730 anchors
+  episode 350/400, 3197 anchors
+  episode 400/400, 3657 anchors
+
+  3657 anchors, feature dim 18
+  contact rate during collection: 21.6%
+  d_h quantiles (the Table H.2 analogue):
+       h      mean    median       p75       p90       p95
+       1    2.5654    2.3435    3.1648    4.2051    4.9982
+       5   10.0619    8.6755   12.2296   17.9088   22.3705
+      10   19.6985   16.8532   23.8731   34.6660   43.4462
+      15   31.9619   25.7228   38.8108   58.6590   76.8875
+      20   48.1027   36.6066   59.7328   98.1331  124.3812
+      30   88.0029   65.5212  119.4581  184.8732  233.8326
+    [00 collect (ensemble) done in 117s]
+
+### 00 collect (video)
+    python3 scripts/00_collect.py --run reference --kind video --train-episodes 600 --anchor-episodes 220 --anchors-per-episode 10
+
+========================================================================
+[00] fitting the video world model
+========================================================================
+  54687 transitions from 600 episodes
+  member 0: final NLL -3.4590
+  member 1: final NLL -3.4336
+  member 2: final NLL -3.4317
+  member 3: final NLL -3.4469
+  member 4: final NLL -3.4436
+
+========================================================================
+[00] collecting anchors (Algorithm G.1, lines 1-4)
+========================================================================
+  feature dim 18; disabled families: ['jacobian']
+  episode 50/220, 430 anchors
+  episode 100/220, 890 anchors
+  episode 150/220, 1350 anchors
+  episode 200/220, 1810 anchors
+
+  1990 anchors, feature dim 18
+  contact rate during collection: 21.5%
+  d_h quantiles (the Table H.2 analogue):
+       h      mean    median       p75       p90       p95
+       1    2.5727    2.3166    3.2189    4.2954    5.0805
+       5    9.8017    8.4783   11.9717   17.1233   21.0919
+      10   18.8093   16.1768   22.9182   33.1354   42.1140
+      15   30.4366   25.2731   37.4231   53.1332   69.9270
+      20   45.5759   35.4695   56.2343   85.5425  114.2916
+      30   84.9167   64.2322  111.5933  175.9258  221.3880
+    [00 collect (video) done in 81s]
+
+### 01 calibrate (ensemble)
+    python3 scripts/01_calibrate.py --run reference --kind ensemble --epochs 150
+
+========================================================================
+[01] episode-level splits (never transition-level)
+========================================================================
+  train:  2200 anchors from 220 episodes
+  cal  :   727 anchors from 73 episodes
+  test :   730 anchors from 73 episodes
+
+========================================================================
+[01] Algorithm G.1
+========================================================================
+  fitting the monotone quantile head on 2200 anchors
+  epoch   0  pinball=415.05764 val=398.10681
+  epoch  10  pinball=98.96341 val=83.95717
+  epoch  20  pinball=48.86968 val=49.05735
+  epoch  30  pinball=43.95295 val=44.43905
+  epoch  40  pinball=42.29128 val=42.65253
+  epoch  50  pinball=40.50317 val=41.73671
+  epoch  60  pinball=40.39382 val=41.22935
+  epoch  70  pinball=39.79997 val=40.69922
+  epoch  80  pinball=39.58851 val=40.59237
+  epoch  90  pinball=38.77531 val=40.47144
+  epoch 100  pinball=38.89692 val=40.33464
+  epoch 110  pinball=38.31571 val=40.31834
+  epoch 120  pinball=38.60349 val=40.26302
+  epoch 130  pinball=38.44688 val=40.24370
+  epoch 140  pinball=38.65664 val=40.23870
+  epoch 149  pinball=38.30260 val=40.23803
+  lambda_hat (behaviour-policy) = 1.3851 on n_cal = 727
+
+  tau              = 37.4209  (Appendix H.2 heuristic)
+  lambda_hat       = 1.3851
+  mean H* (HALT)   = 7.34 +/- 2.31
+  mean H* (Bonf.)  = 4.96 +/- 1.35
+  horizon the union bound costs: +2.38 steps
+    [01 calibrate (ensemble) done in 7s]
+
+### 01 calibrate (video)
+    python3 scripts/01_calibrate.py --run reference --kind video --epochs 150
+
+========================================================================
+[01] episode-level splits (never transition-level)
+========================================================================
+  train:  1190 anchors from 119 episodes
+  cal  :   400 anchors from 40 episodes
+  test :   400 anchors from 40 episodes
+
+========================================================================
+[01] Algorithm G.1
+========================================================================
+  fitting the monotone quantile head on 1190 anchors
+  epoch   0  pinball=409.70059 val=346.80823
+  epoch  10  pinball=325.77748 val=266.57214
+  epoch  20  pinball=104.72473 val=78.14912
+  epoch  30  pinball=53.18521 val=45.54848
+  epoch  40  pinball=45.12934 val=41.33142
+  epoch  50  pinball=42.14602 val=39.59420
+  epoch  60  pinball=40.64068 val=38.59970
+  epoch  70  pinball=40.12488 val=38.27419
+  epoch  80  pinball=39.75108 val=38.18080
+  epoch  90  pinball=39.28807 val=38.07171
+  epoch 100  pinball=39.45058 val=38.02192
+  epoch 110  pinball=38.99598 val=37.95379
+  epoch 120  pinball=39.01753 val=37.94604
+  epoch 130  pinball=39.15442 val=37.93038
+  epoch 140  pinball=38.51444 val=37.92757
+  epoch 149  pinball=38.95904 val=37.92778
+  lambda_hat (behaviour-policy) = 1.2371 on n_cal = 400
+
+  tau              = 36.9243  (Appendix H.2 heuristic)
+  lambda_hat       = 1.2371
+  mean H* (HALT)   = 8.11 +/- 2.42
+  mean H* (Bonf.)  = 0.00 +/- 0.00
+  horizon the union bound costs: +8.11 steps
+
+  NOTE: 30/30 Bonferroni horizons have lambda = inf. Each is calibrated at alpha/H_max = 0.00167, which needs ceil((n+1)(1-alpha/H_max)) <= n calibration points; with n_cal = 400 that is impossible, so the union bound certifies nothing at all here. That is not a bug in the baseline -- it is the cost Eq. (8) is designed to avoid, and it shows up as an infeasible calibration long before it shows up as a merely shorter horizon.
+    [01 calibrate (video) done in 5s]
+
+### 02 evaluate (ensemble)
+    python3 scripts/02_evaluate.py --run reference --kind ensemble
+
+========================================================================
+[02] coverage (Proposition 4.1)
+========================================================================
+  target 1 - alpha        = 0.950
+  simultaneous coverage   = 0.989  (n = 730 certified of 730)
+  abstention rate         = 0.000
+  mean H*                 = 7.34
+  horizon calibration err = 0.0396
+
+========================================================================
+[02] is H* actually state-dependent?
+========================================================================
+  contact     n= 182  mean H* =  6.45  mean d_1 =    2.39
+  free_space  n= 548  mean H* =  7.64  mean d_1 =    2.61
+  contact / free-space horizon ratio: 0.84x  (a fixed horizon has to be wrong in one regime or the other)
+
+========================================================================
+[02] silent failure (Definition 3.2, H1)
+========================================================================
+  SFR(tau=37.42, kappa=0.50) = 0.142
+  SFR(tau=37.42, kappa=0.75) = 0.018
+  SFR(tau=37.42, kappa=0.90) = 0.001
+  rank corr(appearance, TTCD) = 0.071   (H1 falsifier was > 0.70)
+  AURC-C: HALT 0.0066 vs random trust 0.0288 (lower is better)
+
+========================================================================
+[02] action grounding (Eq. 4-5, Table 7 analogue)
+========================================================================
+  h=1: CAS = 0.036 +/- 0.049, rho = -1.228 +/- 1.520  -> action_collapse
+  h=5: CAS = 0.093 +/- 0.124, rho = -3.488 +/- 2.376  -> action_collapse
+    [02 evaluate (ensemble) done in 2s]
+
+### 02 evaluate (video)
+    python3 scripts/02_evaluate.py --run reference --kind video
+
+========================================================================
+[02] coverage (Proposition 4.1)
+========================================================================
+  target 1 - alpha        = 0.950
+  simultaneous coverage   = 0.985  (n = 400 certified of 400)
+  abstention rate         = 0.000
+  mean H*                 = 8.11
+  horizon calibration err = 0.0350
+
+========================================================================
+[02] is H* actually state-dependent?
+========================================================================
+  contact     n=  74  mean H* =  7.43  mean d_1 =    2.53
+  free_space  n= 326  mean H* =  8.26  mean d_1 =    2.60
+  contact / free-space horizon ratio: 0.90x  (a fixed horizon has to be wrong in one regime or the other)
+
+========================================================================
+[02] silent failure (Definition 3.2, H1)
+========================================================================
+  SFR(tau=36.92, kappa=0.50) = 0.110
+  SFR(tau=36.92, kappa=0.75) = 0.003
+  SFR(tau=36.92, kappa=0.90) = 0.000
+  rank corr(appearance, TTCD) = -0.006   (H1 falsifier was > 0.70)
+  AURC-C: HALT 0.0113 vs random trust 0.0323 (lower is better)
+    [02 evaluate (video) done in 2s]
+
+### 03 phantasm
+    python3 scripts/03_phantasm.py --run reference --episodes 80 --anchors-per-episode 6 --severity 2
+
+========================================================================
+[03] PHANTASM sweep at severity 2
+========================================================================
+  calibration is NOT redone: lambda_hat = 1.385, tau = 37.421
+
+  nominal        HALT cov 0.987  H*  6.97  |  fixed(H=15) cov 0.746  |  contact 22.9%
+  parametric     HALT cov 0.998  H*  6.80  |  fixed(H=15) cov 0.739  |  contact 30.1%
+  contact        HALT cov 0.876  H*  7.37  |  fixed(H=15) cov 0.580  |  contact 13.0%
+  action         HALT cov 0.981  H*  6.94  |  fixed(H=15) cov 0.692  |  contact 20.8%
+  sensing        HALT cov 0.757  H*  2.48  |  fixed(H=15) cov 0.364  |  contact 13.5%
+  material       HALT cov 1.000  H*  6.69  |  fixed(H=15) cov 0.733  |  contact 17.9%
+  composition    HALT cov 0.989  H*  7.30  |  fixed(H=15) cov 0.763  |  contact 22.5%
+
+  HALT coverage across axes : 0.757 to 1.000
+  Fixed coverage across axes: 0.364 to 0.763
+  worst-case gap from target: 0.193
+    [03 phantasm done in 49s]
+
+### 04 aci
+    python3 scripts/04_aci.py --run reference --episodes 160 --severity 3
+
+========================================================================
+[04] building the miss stream from real anchors
+========================================================================
+  444 nominal anchors, then 438 under parametric severity 3
+
+========================================================================
+[04] result
+========================================================================
+  target alpha                 = 0.050
+  ACI    miss rate (overall)   = 0.0393
+  ACI    miss rate (post-shift)= 0.0342
+  static miss rate (overall)   = 0.0023
+  static miss rate (post-shift)= 0.0023
+  Prop. 5.2 bound at T=865, L_max=30: 0.0370
+  ACI deviation 0.0107 -> bound respected: True
+  telescoping residual = 0.00e+00 (must be ~0)
+  alpha_t drifted 0.050 -> 0.5125
+    [04 aci done in 15s]
+
+### 05 planner shift
+    python3 scripts/05_planner_shift.py --run reference --episodes 60
+
+========================================================================
+[05] collecting PLANNER-induced anchors
+========================================================================
+  300 planner anchors (planning horizon 3)
+
+========================================================================
+[05] result
+========================================================================
+  target 1 - alpha                     = 0.950
+  coverage, behaviour cal / planner test = 0.647  (H* 5.72)
+  coverage, (R1) planner-conditional     = 1.000  (H* 1.99)
+  lambda_hat ratio R1 / behaviour        = 2.554x
+  horizon shortening from (R1)           = +65.1%
+  (R2) kappa_plan = 0.400, coverage 1.000, H* 1.95
+    [05 planner shift done in 144s]
+
+### 06 ablation
+    python3 scripts/06_ablation.py --run reference --epochs 120
+
+========================================================================
+[06] feature-family ablation
+========================================================================
+  full (5 families)                  cov 0.985  H*  7.16  HCE 0.0352
+  disagreement only                  cov 0.978  H*  7.27  HCE 0.0286
+  action-Jacobian only               cov 0.988  H*  6.68  HCE 0.0377
+  task residuals only                cov 0.986  H*  6.73  HCE 0.0363
+  tactile and contact                cov 0.989  H*  5.94  HCE 0.0390
+  error memory and novelty           cov 0.988  H*  6.57  HCE 0.0377
+  disagreement, Jacobian, tactile    cov 0.989  H*  6.89  HCE 0.0390
+
+  Reading the trade-off, not just coverage:
+    disagreement only                  dH* +0.11  dcov -0.007  -> certifies further on worse information
+    action-Jacobian only               dH* -0.48  dcov +0.003  -> comparable
+    task residuals only                dH* -0.43  dcov +0.001  -> comparable
+    tactile and contact                dH* -1.22  dcov +0.004  -> comparable
+    error memory and novelty           dH* -0.59  dcov +0.003  -> comparable
+    disagreement, Jacobian, tactile    dH* -0.27  dcov +0.004  -> comparable
+    [06 ablation done in 23s]
+
+### 07 deploy
+    python3 scripts/07_deploy.py --run reference --episodes 25
+
+========================================================================
+[07] closed-loop deployment
+========================================================================
+  fixed H=1          success 0.0%  unsafe 0.000  H* 1.0
+  fixed H=5          success 0.0%  unsafe 0.000  H* 5.0
+  fixed H=10         success 0.0%  unsafe 0.000  H* 10.0
+  fixed H=15         success 0.0%  unsafe 0.000  H* 15.0
+  HALT (static)      success 0.0%  unsafe 0.000  H* 6.3  abstain 0.0%
+  HALT (aci)         success 0.0%  unsafe 0.000  H* 0.0  abstain 99.5%
+
+  best fixed baseline: fixed H=1 at 0.0% success, 0.000 unsafe
+  best HALT mode     : HALT (static) at 0.0% success, 0.000 unsafe
+
+  H3 was pre-registered as falsified if a tuned fixed horizon matches HALT within noise. With 25 episodes the standard error on a success rate near 50% is about 10.0%; read the comparison against that, not against the point estimates.
+    [07 deploy done in 450s]
+
+### 08 tables
+    python3 scripts/08_tables.py --run reference
+
+========================================================================
+[08] summary
+========================================================================
+   NOT supported  Simultaneous coverage reaches 1 - alpha
+                  0.989 vs target 0.950
+       supported  Max-score beats the union bound on horizon
+                  H* 7.34 vs Bonferroni 4.96
+       supported  H* is state-dependent (contact vs free space)
+                  H* 6.45 at contact vs 7.64 free; d_1 2.39 vs 2.61
+       supported  Appearance is a poor proxy for control validity
+                  rank corr(appearance, TTCD) = 0.071
+       supported  Richer features improve the trust signal
+                  full 0.985 vs worst subset 0.978 (disagreement only)
+       supported  Blunter features certify FURTHER, not just worse
+                  1/6 subsets have a longer mean H* than the full set
+        degraded  Coverage survives the six stress axes
+                  HALT 0.757-1.000 vs fixed 0.364-0.763
+       supported  Delayed ACI holds coverage under shift
+                  ACI miss 0.0393 vs static 0.0023, target 0.050
+        observed  Closed-loop planning breaks exchangeability
+                  coverage drops to 0.647 under the planner
+       supported  Remedy (R1) restores coverage, at a horizon cost
+                  coverage 1.000; H* 5.72 -> 1.99 (-65%)
+       not shown  HALT-truncated MPC beats the best fixed horizon
+                  0.0% (HALT (static)) vs 0.0% (fixed H=1)
+      NOT TESTED  The paper's Table 3 numbers on five MuJoCo tasks
+                  not measured here
+      NOT TESTED  DreamerV3 and TD-MPC2 as the wrapped models
+                  not measured here
+      NOT TESTED  GAIA-1 coverage of 0.92 with the Jacobian family dropped
+                  not measured here
+      NOT TESTED  Real-robot transfer
+                  not measured here
+
+  wrote /home/claude/halt-impl/runs/reference/results/SUMMARY.csv
+  wrote /home/claude/halt-impl/runs/reference/results/REPORT.md
+    [08 tables done in 2s]
+
+Finished. Artefacts in runs/reference/
+  REPORT.md
+  SUMMARY.csv
+  SUMMARY.meta.json
+  aci_summary.csv
+  aci_summary.meta.json
+  aci_trace.csv
+  aci_trace.meta.json
+  anchors_ensemble.npz
+  anchors_video.npz
+  calibration_ensemble.csv
+  calibration_ensemble.meta.json
+  calibration_video.csv
+  calibration_video.meta.json
+  collect_ensemble.meta.json
+  collect_video.meta.json
+  coverage_ensemble.csv
+  coverage_ensemble.meta.json
+  coverage_video.csv
+  coverage_video.meta.json
+  deployment.csv
+  deployment.meta.json
+  error_distribution_ensemble.csv
+  error_distribution_ensemble.meta.json
+  error_distribution_video.csv
+  error_distribution_video.meta.json
+  feature_ablation.csv
+  feature_ablation.meta.json
+  grounding_ensemble.csv
+  grounding_ensemble.meta.json
+  grounding_summary_ensemble.csv
+  grounding_summary_ensemble.meta.json
+  grounding_video.csv
+  grounding_video.meta.json
+  head_training_ensemble.csv
+  head_training_ensemble.meta.json
+  head_training_video.csv
+  head_training_video.meta.json
+  horizon_profile_ensemble.csv
+  horizon_profile_ensemble.meta.json
+  horizon_profile_video.csv
+  horizon_profile_video.meta.json
+  phantasm_sweep.csv
+  phantasm_sweep.meta.json
+  planner_shift.csv
+  planner_shift.meta.json
+  silent_failure_ensemble.csv
+  silent_failure_ensemble.meta.json
+  silent_failure_video.csv
+  silent_failure_video.meta.json
+  world_model_training.csv
+  world_model_training.meta.json

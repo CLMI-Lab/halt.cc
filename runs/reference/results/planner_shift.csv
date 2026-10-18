@@ -1,0 +1,5 @@
+setting,lambda_hat,coverage,mean_h_star,note,alpha,tau,provenance
+"behaviour-policy calibration, behaviour-policy test",1.38512,,,the Prop. 4.1 regime (see coverage_*.csv),0.05,37.4209,planar-push-reference-suite
+"behaviour-policy calibration, PLANNER test",1.38512,0.646667,5.71667,exchangeability broken; this is the shortfall of §4.4,0.05,37.4209,planar-push-reference-suite
+"(R1) planner-conditional calibration, PLANNER test",3.53779,1,1.99333,coverage restored; horizon is the price,0.05,37.4209,planar-push-reference-suite
+"(R2) conservative horizon kappa_plan, PLANNER test",1.38512,1,1.94667,kappa_plan = 0.400,0.05,37.4209,planar-push-reference-suite

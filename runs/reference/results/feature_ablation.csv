@@ -1,0 +1,8 @@
+feature_group,n_families,coverage,mean_h_star,std_h_star,abstention_rate,hce,lambda_hat,n_certified,provenance
+full (5 families),5,0.984932,7.16438,2.32387,0,0.0352055,1.41685,730,planar-push-reference-suite
+disagreement only,1,0.978082,7.26986,2.34311,0,0.0286301,1.32851,730,planar-push-reference-suite
+action-Jacobian only,1,0.987671,6.67945,1.64733,0,0.0376712,1.34344,730,planar-push-reference-suite
+task residuals only,1,0.986301,6.73014,1.68142,0,0.0363014,1.29681,730,planar-push-reference-suite
+tactile and contact,1,0.989041,5.9411,0.235445,0,0.0390411,1.32078,730,planar-push-reference-suite
+error memory and novelty,2,0.987671,6.56986,1.65808,0,0.0376712,1.37146,730,planar-push-reference-suite
+"disagreement, Jacobian, tactile",3,0.989041,6.89452,2.10182,0,0.0390411,1.41285,730,planar-push-reference-suite

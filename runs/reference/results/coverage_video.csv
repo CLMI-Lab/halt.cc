@@ -1,0 +1,2 @@
+alpha,target,tau,lambda_hat,coverage,coverage_including_abstentions,abstention_rate,mean_h_star,mean_h_star_certified,hce,n_test,n_certified,within_1pct_of_target,provenance
+0.05,0.95,36.9243,1.23709,0.985,0.985,0,8.105,8.105,0.035,400,400,False,planar-push-reference-suite

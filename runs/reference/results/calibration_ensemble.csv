@@ -1,0 +1,3 @@
+method,lambda_hat,mean_h_star,std_h_star,n_cal,tau,alpha,provenance
+HALT max-score (Eq. 8),1.38512,7.34384,2.31218,727,37.4209,0.05,planar-push-reference-suite
+Bonferroni per-horizon,1.89708,4.96301,1.35485,727,37.4209,0.05,planar-push-reference-suite

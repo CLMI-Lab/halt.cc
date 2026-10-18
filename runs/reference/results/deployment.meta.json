@@ -1,0 +1,44 @@
+{
+  "provenance": {
+    "suite": "planar-push-reference-suite",
+    "halt_version": "0.1.0",
+    "git_commit": "not-a-git-checkout",
+    "timestamp_utc": "2026-10-18T16:10:11+00:00",
+    "python": "3.13.16",
+    "platform": "Linux-6.18.44-fc-v139-x86_64-with-glibc2.39",
+    "note": "Produced by the HALT reference implementation. The reference suite is a synthetic contact-rich environment, NOT one of the five MuJoCo tasks of the paper's Section 8. These numbers validate the implementation and the propositions; they are not a reproduction of the paper's reported results."
+  },
+  "rows": 6,
+  "columns": [
+    "mode",
+    "planner",
+    "n_episodes",
+    "success_rate",
+    "mean_reward",
+    "unsafe_rate",
+    "abstention_rate",
+    "mean_h_star",
+    "std_h_star",
+    "realised_miss_rate",
+    "n_feedback",
+    "method",
+    "aci_controller",
+    "aci_alpha_target",
+    "aci_alpha_final",
+    "aci_eta",
+    "aci_l_max",
+    "aci_T_fed",
+    "aci_miss_rate",
+    "aci_deviation",
+    "aci_prop_5_2_bound",
+    "aci_bound_respected",
+    "aci_telescoping_residual",
+    "aci_level_saturated_frac",
+    "aci_pending_at_end",
+    "provenance"
+  ],
+  "config": {
+    "episodes": 25,
+    "planner": "mppi"
+  }
+}

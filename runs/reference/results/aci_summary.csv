@@ -1,0 +1,3 @@
+controller,alpha_target,miss_rate_overall,miss_rate_post_shift,deviation,prop_5_2_bound,bound_respected,telescoping_residual,alpha_final,T_fed,l_max,eta,provenance
+"ACI (Eq. 12, delayed)",0.05,0.0393064,0.0342466,0.0106936,0.0369942,True,0,0.5125,865,30,0.05,planar-push-reference-suite
+static conformal,0.05,0.00226757,0.00228311,0.0477324,,,,0.05,882,0,0,planar-push-reference-suite

@@ -1,0 +1,42 @@
+{
+  "config": {
+    "n_episodes": 400,
+    "h_max": 30,
+    "anchors_per_episode": 10,
+    "n_rollouts": 5,
+    "jacobian_every": 8,
+    "memory_m": 5,
+    "seed": 1,
+    "policy": "behaviour",
+    "max_episode_steps": 100
+  },
+  "n_anchors": 3657,
+  "contact_rate": 0.21556531343444413,
+  "feature_names": [
+    "D_h1",
+    "D_h5",
+    "D_h10",
+    "D_h20",
+    "logJnorm_h1",
+    "Jentropy_h1",
+    "logJcond_h1",
+    "logJnorm_h5",
+    "Jentropy_h5",
+    "logJcond_h5",
+    "latent_novelty",
+    "tactile_residual",
+    "contact_onset_prob",
+    "resid_lag1",
+    "resid_lag2",
+    "resid_lag3",
+    "resid_lag4",
+    "resid_lag5"
+  ],
+  "capabilities": {
+    "stochastic_rollouts": true,
+    "differentiable_readout": true,
+    "task_state_at_calibration": true,
+    "task_state_at_deployment": true,
+    "n_rollouts": 5
+  }
+}
