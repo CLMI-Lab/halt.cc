@@ -1,0 +1,47 @@
+# Template for one of the paper's Section 8 tasks.
+#
+# This file does NOT run as-is. It records the shape of the configuration and
+# the decisions you must make yourself; the adapters raise rather than stub.
+# Read docs/REAL_ENVIRONMENTS.md first.
+
+suite: mujoco-pusher-v5
+
+environment:
+  name: Pusher-v5
+  backend: mujoco
+  # Your wrapper must provide exact get_state/set_state round-tripping
+  # (remember mj_forward) or ground-truth replay and J* both drift.
+  max_steps: 100
+
+task_state:
+  # From MuJoCoTaskSpecs.pusher(). Set sigma from what the task needs and what
+  # the hardware resolves -- not from what flatters the model, and not an
+  # order of magnitude tighter "to be safe".
+  names: [obj_x, obj_y, obj_z, tip_x, tip_y, tip_z]
+  sigma: [0.005, 0.005, 0.005, 0.005, 0.005, 0.005]
+
+world_model:
+  kind: dreamerv3                        # dreamerv3 | tdmpc2 | ensemble | video
+  checkpoint: /path/to/your/agent.ckpt
+  K: 5
+  capabilities:
+    stochastic_rollouts: true
+    differentiable_readout: true         # needs a TASK-STATE head, not the image decoder
+    task_state_at_calibration: true
+    task_state_at_deployment: false      # true only with mocap or a perception stack
+
+head:
+  h_max: 50                              # the paper's value
+  width: 256
+  activation: gelu
+  alpha: 0.05
+  epochs: 200
+
+calibration:
+  alpha: 0.05
+  tau: null
+  splits: [0.6, 0.2, 0.2]
+  split_level: episode
+  planner_conditional: false             # true applies remedy (R1) of §4.4
+
+seeds: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]    # the paper's ten

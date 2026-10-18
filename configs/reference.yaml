@@ -1,0 +1,73 @@
+# Configuration for the bundled PlanarPush reference suite.
+#
+# These values produced the CSVs in runs/reference/. They are NOT the paper's
+# Section 8 settings -- see configs/mujoco_pusher.yaml for the shape those
+# take, and docs/REAL_ENVIRONMENTS.md for what you must supply to use them.
+
+suite: planar-push-reference-suite
+
+environment:
+  name: PlanarPush
+  dt: 0.05
+  r_contact: 0.045
+  ee_lag: 0.80          # tuned so the behaviour policy actually makes contact
+  action_scale: 0.90    # (~19% of steps); at the original values it was 1%
+  process_noise: 0.0015
+  max_steps: 100
+
+task_state:
+  # Object pose, end-effector pose, contact indicator. Object VELOCITY is a
+  # state variable, not a task-defining quantity, so it drives the dynamics
+  # and stays out of y -- Section 3 lists what belongs in the readout.
+  names:  [obj_x, obj_y, ee_x, ee_y, contact]
+  sigma:  [0.010, 0.010, 0.005, 0.005, 0.5]
+
+world_model:
+  kind: ensemble        # ensemble | video
+  K: 5                  # >= 2, or the disagreement family is gated off
+  width: 192
+  depth: 3
+  epochs: 25
+  lr: 1.0e-3
+  clip_readout_to_training_range: true   # autoregressive rollouts diverge without it
+
+features:
+  families: [disagreement, jacobian, novelty, tactile, memory]
+  h_probe: [1, 5, 10, 20]
+  jacobian_horizons: [1, 5]
+  memory_m: 5
+
+head:                   # Eq. (6) and Eq. (7)
+  h_max: 30
+  width: 192
+  depth: 3
+  activation: gelu
+  gamma_w: 0.97
+  alpha: 0.05
+  lr: 3.0e-4
+  epochs: 150
+  batch_size: 256
+
+calibration:
+  alpha: 0.05
+  tau: null             # null => the Appendix H.2 heuristic
+  splits: [0.6, 0.2, 0.2]
+  split_level: episode  # NEVER transition; exchangeability depends on it
+
+aci:
+  eta: 0.05
+  l_max: 30             # equals h_max: a rollout is scored when its horizon elapses
+  clip_alpha: false     # clipping breaks the Prop. 5.2 telescoping identity
+
+planner:
+  kind: mppi            # cem | mppi
+  n_samples: 24
+  n_iters: 2
+  gamma: 0.95
+  beta: 0.20            # weight on the certified-quantile penalty in Eq. (11)
+  h_min: 3              # abstention threshold
+  safe_policy: slow     # slow | retract | re_observe | request_help
+
+phantasm:
+  axes: [parametric, contact, action, sensing, material, composition]
+  severity: 2

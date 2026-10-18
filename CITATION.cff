@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite the paper below."
+title: "HALT: Certifying Trust Horizons in Action-Conditioned Robotic World Models"
+abstract: >-
+  Model-based robot controllers treat the imagination horizon as a fixed
+  hyperparameter, yet the number of steps for which a world model remains
+  dynamically valid is state-, action- and context-dependent. HALT
+  (Horizon-Adaptive Latent Trust) is a wrapper that converts a world model into
+  one that reports a certified, state-dependent trust horizon with a
+  distribution-free guarantee, by coupling a monotone quantile head over
+  deployment-available features with simultaneous split-conformal calibration.
+type: conference-paper
+authors:
+  - family-names: Mohammad
+    given-names: "Noor Islam S."
+    affiliation: "Department of Computer Science, Istanbul Technical University"
+    email: islam23@itu.edu.tr
+  - family-names: Sheikh
+    given-names: "Md. Faisal"
+    affiliation: "Department of Electrical and Computer Engineering, North South University"
+  - family-names: Habib
+    given-names: Jakaria
+    affiliation: "Department of Information and Communication Engineering, Pabna University of Science and Technology"
+year: 2026
+collection-title: >-
+  NeurIPS 2026 Workshop on Robot Learning with World Models:
+  Capabilities, Frontiers, and Challenges
+keywords:
+  - world models
+  - conformal prediction
+  - model-based reinforcement learning
+  - uncertainty quantification
+  - robot learning
+  - trust horizon
+license: MIT
