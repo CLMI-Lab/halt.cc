@@ -1,0 +1,15 @@
+# Core. Nothing here is optional.
+numpy>=1.24
+scipy>=1.10
+torch>=2.0
+
+# Tests.
+pytest>=7.0
+
+# Optional, for the real-task path (see docs/REAL_ENVIRONMENTS.md).
+# Install these yourself; the adapters raise a clear ImportError without them
+# rather than falling back to a stub model.
+#   mujoco>=3.0
+#   gymnasium>=0.29
+#   dreamerv3
+#   tdmpc2

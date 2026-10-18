@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "halt-world-models"
+version = "0.1.0"
+description = "Certified, state-dependent trust horizons for action-conditioned world models"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+  { name = "Noor Islam S. Mohammad", email = "islam23@itu.edu.tr" },
+  { name = "Md. Faisal Sheikh" },
+  { name = "Jakaria Habib" },
+]
+keywords = ["conformal-prediction", "world-models", "robotics",
+            "model-based-rl", "uncertainty-quantification"]
+dependencies = ["numpy>=1.24", "scipy>=1.10", "torch>=2.0"]
+
+[project.optional-dependencies]
+test = ["pytest>=7.0"]
+
+[tool.setuptools.packages.find]
+include = ["halt*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["ignore::DeprecationWarning"]
